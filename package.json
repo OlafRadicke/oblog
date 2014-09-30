@@ -1,0 +1,11 @@
+{
+  "name": "oblog",
+  "description": "very simple blog",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x",
+    "jade": "1.7.x",
+    "mongodb": "1.4.x"
+  }
+}

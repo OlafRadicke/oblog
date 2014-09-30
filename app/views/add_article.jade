@@ -1,0 +1,41 @@
+//- index.jade
+extends ./layout.jade
+
+block title
+  title Add Article
+
+block content
+    h1 Neuer Artikel
+
+    form(method="post")
+
+        fieldset
+            label(for="title").
+                Titel:
+            br
+            input(name="title" type="text" size="80" maxlength="300")
+
+        fieldset
+            label(for="state").
+                Status:
+            br
+            select(name="state")
+              option Entwurff
+              option Veröffentlicht
+              option Papierkorb
+
+        fieldset
+            label(for="teaser").
+                Anrisstext:
+            br
+            textarea(name="teaser" cols="80" rows="3")
+
+        fieldset
+            label(for="body").
+                Text:
+            br
+            textarea(name="body" cols="80" rows="20")
+            br
+
+        button(class="btn", data-action="save").
+            Speichern
