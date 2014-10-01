@@ -1,5 +1,6 @@
 "use strict";
 
+var add_article = require('../controllers/add_article.js');
 var express = require('express');
 var AppRoutes = {
     init: function( app ) {
@@ -7,10 +8,7 @@ var AppRoutes = {
             res.render('index.jade', { message: 'Hello there!'});
 //             res.send('Hello World');
         });
-        app.get('/add', function(req, res){
-            res.render('add_article.jade');
-//             res.send('Hello World');
-        });
+        app.get('/add', require('../controllers/add_article.js') );
     }
 };
 
