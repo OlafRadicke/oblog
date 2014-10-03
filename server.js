@@ -3,6 +3,7 @@
 var express = require('express');
 var app = express();
 var AppRoutes  = require('./app/definitions/routing.js');
+var app_config = require('./app/definitions/app_config.js');
 
 
 app.set('views', __dirname + "/app/views/");
@@ -14,6 +15,13 @@ AppRoutes.init( app );
 
 var server = app.listen(3000, function() {
     global.global_vars = {bekannt: "ja"};
-    console.log('Listening on port %d', server.address().port);
+    console.log('[server] Listening on port %s', server.address().port);
+
+    console.log('[server] filename ' +  app_config.filename);
+    console.log('[server] DB-Host ' +  app_config.db.host);
+    app_config.db.host = "newhost";
+    app_config.filename = "new-file.txt";
+    console.log('[server] DB-Host ' +  app_config.db.host);
+    console.log('[server] filename' + app_config.filename);
 
 });

@@ -1,8 +1,14 @@
 "use strict";
 
+var app_config = require('../definitions/app_config.js');
 
 module.exports = function(req, res){
     console.log('new artikele....');
+    console.log('[add_article] DB-Host ' +  app_config.db.host);
+    console.log('[add_article] filename' + app_config.filename);
+
+//     var app_config = require('./app/definitions/app_config.js');
+//     console.log('[add_article] DB-Host %d', app_config.db.host);
 
     var mongoose = require('mongoose');
     mongoose.createConnection('mongodb://localhost/oblog');
