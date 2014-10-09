@@ -4,6 +4,9 @@ var express = require('express');
 var app = express();
 var AppRoutes  = require('./app/definitions/routing.js');
 var app_config = require('./app/definitions/app_config.js');
+var db_init = require('./app/definitions/db_init.js');
+db_init.check_exist();
+db_init.check_update();
 
 
 app.set('views', __dirname + "/app/views/");

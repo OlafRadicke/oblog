@@ -4,7 +4,10 @@ var AppConfig = function AppConfig(){};
 
 AppConfig.prototype.db = {
     host: "localhost",
-    port: "9999"
+    port: "9999",
+    filename: "./database.db",
+    client: "sqlite3",
+    debug: "true"
 };
 
 AppConfig.prototype.filename = "config-file.json"
