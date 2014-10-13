@@ -33,6 +33,7 @@ var db_init = {
                   table.text('title').notNullable() ;
                   table.text('teaser').defaultTo("no set") ;
                   table.text('body').defaultTo("no set") ;
+                  table.text('state').defaultTo("Entwurff") ;
                 }).debug();
             }
         });
@@ -69,7 +70,24 @@ var db_init = {
             }
         });
 
-        knex('schema_version').insert( [{version_number: 1}] ).debug();
+        knex.schema.hasTable('rss_feeds').then(function(exists) {
+            if (!exists) {
+                return knex.schema.createTable('rss_feeds', function(table) {
+                  table.increments('id').primary();
+                  table.text('title').notNullable();
+                  table.text('linkurl').notNullable();
+                  table.text('description').notNullable();
+                  table.dateTime('createtime');
+                }).debug();
+            }
+        });
+
+        knex('schema_version')
+            .insert( {version_number: 1, update: Date.now()} )
+            .debug()
+            .then(function(inserts) {
+                console.log(inserts.length + ' new version saved.');
+            });
     },
     check_update: function(){
         console.log("check if exist a database tables update...");

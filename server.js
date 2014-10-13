@@ -5,14 +5,25 @@ var app = express();
 var AppRoutes  = require('./app/definitions/routing.js');
 var app_config = require('./app/definitions/app_config.js');
 var db_init = require('./app/definitions/db_init.js');
+var bodyParser = require('body-parser')
+
+// Database prepare
 db_init.check_exist();
 db_init.check_update();
 
-
+// View prepare
 app.set('views', __dirname + "/app/views/");
 app.set('view engine', 'jade');
+// switch on newlines in Jade
+app.locals.pretty = true;
 
+// Prepare body parser
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
+// Prepare the routes
 AppRoutes.init( app );
 
 
