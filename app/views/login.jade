@@ -1,0 +1,25 @@
+//- index.jade
+extends ./layout.jade
+
+block title
+  title Login
+
+block content
+    h1 Login
+
+    form(method="post")
+
+        fieldset
+            label(for="name").
+                Name:
+            br
+            input(id="name", name="name", type="text", size="40", maxlength="300")
+            br
+            label(for="password").
+                Passwort:
+            br
+            input(id="password", name="password", type="password", size="40", maxlength="300")
+
+
+        button(id="bt_save", class="btn", data-action="save").
+            Login
