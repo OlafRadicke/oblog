@@ -103,7 +103,7 @@ var db_init = {
 
                 var pw_hash = crypto
                     .createHash('sha1')
-                    .update( 'oblog' + pw_hash, 'utf8')
+                    .update( 'oblog' + pw_salt, 'utf8')
                     .digest( 'hex');
                 console.log('[db_init] pw_hash: ' + pw_hash );
 
