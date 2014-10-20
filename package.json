@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "express": "4.x",
+    "express-session": "1.9.x",
     "body-parser": "1.9.x",
     "jade": "1.7.x",
     "knex": "~0.6.x",
