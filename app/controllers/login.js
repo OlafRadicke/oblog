@@ -12,13 +12,18 @@ var knex = require('knex')({
 
 module.exports = {
     'get_request': function (req, res) {
-        console.log('login...');
+        console.log('login get...');
         var flash_message_error = ""
         var flash_message = ""
-        res.render('login.jade', {  flash_message: flash_message, flash_message_error: flash_message_error  });
+        var session_data = req.session;
+        res.render('login.jade', {
+            flash_message: flash_message,
+            flash_message_error: flash_message_error,
+            csrfToken: req.csrfToken()
+        });
     },
     'post_request': function (req, res) {
-        console.log('login....');
+        console.log('login post....');
         var db_salt = "";
         var db_pw_hash = "";
         var input_pw_hash = "";
@@ -48,16 +53,32 @@ module.exports = {
                 console.log('[login] input_pw_hash: ' + input_pw_hash );
                 if ( input_pw_hash === db_pw_hash ) {
                     flash_message = "Login erfolgreich!";
+                    var session_data = req.session;
+                    session_data.user_name = req.body.name;
+                    res.redirect('/')
+
                 } else {
                     flash_message_error = "Loginname oder Passwort falsch!";
-                };
 
-                res.render('login.jade', {  flash_message: flash_message, flash_message_error: flash_message_error  });
+                    res.render('login.jade', {
+                        flash_message: flash_message,
+                        flash_message_error: flash_message_error,
+                        csrfToken: req.csrfToken(),
+                        name: req.body.name
+                    });
+
+                };
 
             }).catch(function(error) {
                 console.log( '[login] crash!' + error );
                 flash_message_error = "Loginname oder Passwort falsch!";
-                res.render('login.jade', {  flash_message: flash_message, flash_message_error: flash_message_error  });
+                res.render('login.jade', {
+                    flash_message: flash_message,
+                    flash_message_error: flash_message_error,
+                    csrfToken: req.csrfToken() ,
+                    name: req.body.name
+
+                });
             });
 
 

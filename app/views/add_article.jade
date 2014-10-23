@@ -8,6 +8,7 @@ block content
     h1 Neuer Artikel
 
     form(method="post")
+        input( type="hidden", name="_csrf", value="#{csrfToken}")
 
         fieldset
             label(for="title").

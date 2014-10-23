@@ -25,7 +25,6 @@ var db_init = {
                 return knex.schema.createTable('schema_version', function(table) {
                   table.increments('id').primary();
                   table.integer('version_number').notNullable() ;
-//                   table.dateTime('update').defaultTo(knex.raw("date('now')"));
                   table.dateTime('update');
                 }).debug() ;
             }
@@ -93,20 +92,18 @@ var db_init = {
             .select('version_number')
             .debug()
             .then( function(rows) {
-                console.log( '[db_init] The version is: ' + rows[0].version_number );
+                console.log( '[db_init] Version of database schema : ' + rows[0].version_number );
             }).catch(function(error) {
-//                 console.error(error);
-                // Wahrscheinlich wird die DB zum ersten mal angelegt.
+                console.log( '[db_init] No found version number of database schema. Create admin user.');
+
+                // if this select not found any versions number, than schema
+                // is new create an a first user is needed.
 
                 var pw_salt = randomValueHex (16);
-                console.log('[db_init] pw_salt: ' + pw_salt );
-
                 var pw_hash = crypto
                     .createHash('sha1')
                     .update( 'oblog' + pw_salt, 'utf8')
                     .digest( 'hex');
-                console.log('[db_init] pw_hash: ' + pw_hash );
-
 
                 knex('user')
                     .insert( {
@@ -119,23 +116,17 @@ var db_init = {
                     .then(function(inserts) {
                         console.log('[db_init] ' + inserts.length + ' new version saved.');
                     });
-            });
 
 
-        knex('schema_version')
-            .where('version_number', 1)
-            .del()
-            .debug()
-            .then(function(inserts) {
-                console.log('[db_init] ' + inserts.length + ' delete old version number.');
+                console.log( '[db_init] Set version number of database schema. Create admin user.');
+                knex('schema_version')
+                    .insert( {version_number: 1, update: Date.now()} )
+                    .debug()
+                    .then(function(inserts) {
+                        console.log('[db_init] ' + inserts.length + ' new version saved.');
+                    });
             });
 
-        knex('schema_version')
-            .insert( {version_number: 1, update: Date.now()} )
-            .debug()
-            .then(function(inserts) {
-                console.log('[db_init] ' + inserts.length + ' new version saved.');
-            });
     },
     check_update: function(){
         console.log("check if exist a database tables update...");

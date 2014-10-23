@@ -3,6 +3,7 @@
 var express = require('express');
 var app = express();
 var session = require('express-session');
+var csrf = require('csurf')
 
 var AppRoutes  = require('./app/definitions/routing.js');
 var app_config = require('./app/definitions/app_config.js');
@@ -34,19 +35,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+// Add the csrf module for CSRF protection.
+app.use(csrf())
+// error handler
+app.use(function (err, req, res, next) {
+  console.log('[server] err.code: ' + err.code);
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+  // handle CSRF token errors here
+  res.status(403)
+  res.send('session has expired or form tampered with')
+})
+
+
 // Prepare the routes
 AppRoutes.init( app );
 
-
 var server = app.listen(3000, function() {
     global.global_vars = {bekannt: "ja"};
-    console.log('[server] Listening on port %s', server.address().port);
-
-    console.log('[server] filename ' +  app_config.filename);
-    console.log('[server] DB-Host ' +  app_config.db.host);
-    app_config.db.host = "newhost";
-    app_config.filename = "new-file.txt";
-    console.log('[server] DB-Host ' +  app_config.db.host);
-    console.log('[server] filename' + app_config.filename);
+    console.log('[server] Listening on port ' + server.address().port);
 
 });

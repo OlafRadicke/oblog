@@ -6,4 +6,20 @@ html
     block title
       title Default title
   body
-    block content
+
+    #container.menu_block
+        ul
+            if user_name
+                li
+                    a( href="/login" ) login
+            else
+                li
+                    a( href="/logout" ) logout
+            li
+                a( href="/add" ) Neuer Artikel
+            li
+                a( href="/edit_account" ) Account
+
+
+    #container.content_block
+        block content

@@ -15,7 +15,11 @@ module.exports = {
         console.log('[add_article] DB-Host ' +  app_config.db.host);
         console.log('[add_article] filename' + app_config.filename);
 
-        res.render('add_article.jade');
+        res.render('add_article.jade', {
+            flash_message: flash_message,
+            flash_message_error: flash_message_error,
+            csrfToken: req.csrfToken()
+        });
     },
     'post_request': function (req, res) {
         console.log('new artikele....');
@@ -37,9 +41,14 @@ module.exports = {
             {body: req.body.body},
             {state: req.body.state}
         ] ).debug().then(function(inserts) {
-              console.log(inserts.length + ' new article saved.');
-        });
+            console.log(inserts.length + ' new article saved.');
+            flash_message = "Artikel wurde gespeichert";
 
-        res.render('add_article.jade');
+            res.render('add_article.jade', { 
+                flash_message: flash_message,
+                flash_message_error: flash_message_error,
+                csrfToken: req.csrfToken()
+            });
+        });
     }
 }

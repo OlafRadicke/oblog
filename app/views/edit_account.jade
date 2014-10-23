@@ -2,10 +2,10 @@
 extends ./layout.jade
 
 block title
-  title Login
+  title edit account
 
 block content
-    h1 Login
+    h1 Account-Daten
 
     if flash_message_error != ""
         #flash_message_error
@@ -17,21 +17,20 @@ block content
             h2 Info
             p #{flash_message}
 
-
     form(method="post")
         input( type="hidden", name="_csrf", value="#{csrfToken}")
 
         fieldset
-            label(for="name").
+            label(for="email").
                 Name:
             br
-            input(id="name", name="name", type="text", size="40", maxlength="300")
+            input(name="email", type="text", size="40", maxlength="300", value="#{email}")
             br
             label(for="password").
                 Passwort:
             br
-            input(id="password", name="password", type="password", size="40", maxlength="300")
+            input(name="password", type="password", size="40", maxlength="300")
 
 
         button(id="bt_save", class="btn", data-action="save").
-            Login
+            Speichern
