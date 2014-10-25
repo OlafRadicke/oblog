@@ -8,26 +8,31 @@ module.exports = {
 
         var access_role = "";
         var session_data = "";
-        console.log('[routing] Tuhe irgend etwas.... ');
-        console.log('[routing] Pfadaufruf: ' + req.path );
+        console.log('[acl_check] Pfadaufruf: ' + req.path );
+        console.log('[acl_check] app_config: ' + JSON.stringify(app_config) );
+        console.log('[acl_check] app_config.souce_acl: ' + JSON.stringify(app_config.souce_acl) );
         access_role = app_config.souce_acl[req.path];
-        console.log('[routing] access_role: ' + access_role );
+        console.log('[acl_check] access_role: ' + access_role );
 
         session_data = req.session;
-        if (session_data.views) {
-            session_data.views++
-            console.log('[routing] views: ' + session_data.views );
-            console.log('[routing] expires in: ' + (session_data.cookie.maxAge / 1000) + 's' );
+        if (session_data.rolls) {
+            console.log('[acl_check] session_data.rolls: ' + session_data.rolls );
+            console.log('[acl_check] expires in: ' + (session_data.cookie.maxAge / 1000) + 's' );
         } else {
-            session_data.views = 1
-            session_data.rolls = ["all"]
-            console.log('[routing] welcome to the session demo. refresh!' );
+            session_data.rolls = ["anonymous"]
+            console.log('[acl_check] set first roll "anonymous".' );
         }
 
-        if ( session_data.rolls.indexOf(access_role) != -1) {
+        if ( session_data.rolls.indexOf(access_role) != -1 ) {
+            console.log('[acl_check] acl is okay.' );
             next();
         } else {
-            res.redirect('/login')
+            console.log('[acl_check] acl is not okay.' );
+            if ( req.path !=  '/login' ){
+                console.log('[acl_check] go to login....' );
+                res.redirect('/login')
+            }
+            next();
         }
     }
 }

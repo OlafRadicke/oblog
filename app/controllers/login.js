@@ -12,7 +12,7 @@ var knex = require('knex')({
 
 module.exports = {
     'get_request': function (req, res) {
-        console.log('login get...');
+        console.log('[login] get...');
         var flash_message_error = ""
         var flash_message = ""
         var session_data = req.session;
@@ -23,7 +23,7 @@ module.exports = {
         });
     },
     'post_request': function (req, res) {
-        console.log('login post....');
+        console.log('[login] post....');
         var db_salt = "";
         var db_pw_hash = "";
         var input_pw_hash = "";
@@ -53,11 +53,13 @@ module.exports = {
                 console.log('[login] input_pw_hash: ' + input_pw_hash );
                 if ( input_pw_hash === db_pw_hash ) {
                     flash_message = "Login erfolgreich!";
+                    console.log("Login erfolgreich!");
                     var session_data = req.session;
                     session_data.user_name = req.body.name;
                     res.redirect('/')
 
                 } else {
+                    console.log("Login falsch!");
                     flash_message_error = "Loginname oder Passwort falsch!";
 
                     res.render('login.jade', {

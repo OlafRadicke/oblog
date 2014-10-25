@@ -32,7 +32,7 @@ AppConfig.prototype.db = {
  *
  * All user can access this site.
  */
-AppConfig.prototype.souce_acl = [{}];
+AppConfig.prototype.souce_acl = [];
 
 AppConfig.prototype.filename = "config-file.json"
 
