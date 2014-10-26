@@ -8,11 +8,31 @@ module.exports = {
 
         var access_role = "";
         var session_data = "";
-        console.log('[acl_check] Pfadaufruf: ' + req.path );
-        console.log('[acl_check] app_config: ' + JSON.stringify(app_config) );
-        console.log('[acl_check] app_config.souce_acl: ' + JSON.stringify(app_config.souce_acl) );
+        console.log('[acl_check] Pfadaufruf: #' + req.path + '#');
+
+        if ( req.path ==  '/login' ){
+            console.log('[acl_check] we are on the right site. Do nothing....' );
+            next();
+            return;
+        }
+
         access_role = app_config.souce_acl[req.path];
+
+        if ( !req.path in app_config.souce_acl ) {
+            console.log('[acl_check] key "' + req.path + '" is not in list.' );
+            console.log('[acl_check] go to login....' );
+            res.redirect('/login')
+            return;
+
+        } else {
+            console.log('[acl_check] key "' + req.path + '" is in list: ' + app_config.souce_acl[req.path] );
+        }
         console.log('[acl_check] access_role: ' + access_role );
+        if ( access_role === "anonymous" ) {
+            console.log('[acl_check] Site is for all. Do nothing....' );
+            next();
+            return;
+        }
 
         session_data = req.session;
         if (session_data.rolls) {
@@ -31,6 +51,7 @@ module.exports = {
             if ( req.path !=  '/login' ){
                 console.log('[acl_check] go to login....' );
                 res.redirect('/login')
+                return;
             }
             next();
         }

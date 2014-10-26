@@ -30,7 +30,9 @@ module.exports = {
 
             })
             .catch(function(error) {
-                res.redirect('/error/' + error)
+                res.render('error.jade', {
+                    flash_message_error:  error
+                });
             });
 
 

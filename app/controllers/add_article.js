@@ -14,6 +14,8 @@ module.exports = {
         console.log('new artikele....');
         console.log('[add_article] DB-Host ' +  app_config.db.host);
         console.log('[add_article] filename' + app_config.filename);
+        var flash_message_error = ""
+        var flash_message = ""
 
         res.render('add_article.jade', {
             flash_message: flash_message,
@@ -23,6 +25,8 @@ module.exports = {
     },
     'post_request': function (req, res) {
         console.log('new artikele....');
+        var flash_message_error = ""
+        var flash_message = ""
         var updatetime = new Date();
 
         console.log('[add_article] DB-Host ' +  app_config.db.host);
@@ -44,7 +48,7 @@ module.exports = {
             console.log(inserts.length + ' new article saved.');
             flash_message = "Artikel wurde gespeichert";
 
-            res.render('add_article.jade', { 
+            res.render('add_article.jade', {
                 flash_message: flash_message,
                 flash_message_error: flash_message_error,
                 csrfToken: req.csrfToken()

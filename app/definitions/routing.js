@@ -16,24 +16,25 @@ var AppRoutes = {
         app.get('/', function(req, res){
             res.render('index.jade', { message: 'Hello there!'});
         });
-        app_config.souce_acl.push({'/': 'anonymous'});
+        app_config.souce_acl['/'] = 'anonymous';
 
         app.get( '/add', add_article.get_request ) ;
         app.post( '/add', add_article.post_request );
-        app_config.souce_acl.push({'/add': 'admin'});
+        app_config.souce_acl['/add'] = 'admin';
 
         app.get( '/edit_account', edit_account.get_request ) ;
         app.post( '/edit_account', edit_account.post_request );
-        app_config.souce_acl.push({'/edit_account': 'admin'});
+        app_config.souce_acl['/edit_account'] = 'admin';
 
         app.get('/error/:message', function (req, res, next) {
             res.render('error.jade', { message: req.params.message});
         })
-        app_config.souce_acl.push({'/error': 'anonymous'});
+        app_config.souce_acl['/error'] = 'anonymous';
 
         app.get( '/login', login.get_request ) ;
         app.post( '/login', login.post_request );
-        app_config.souce_acl.push({'/login': 'anonymous'});
+//         app_config.souce_acl.push('/login': 'anonymous');
+        app_config.souce_acl["/login"] = "anonymous";
 
 
         console.log('[routing] app_config.souce_acl: ' + JSON.stringify(app_config.souce_acl) );
