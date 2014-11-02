@@ -8,13 +8,18 @@ var acl_check    = require('../controllers/acl_check.js');
 var add_article  = require('../controllers/add_article.js');
 var edit_account = require('../controllers/edit_account.js');
 var login        = require('../controllers/login.js');
+var logout       = require('../controllers/logout.js');
 
 var AppRoutes = {
     init: function( app ) {
         app.all('*', acl_check.all_request );
 
         app.get('/', function(req, res){
-            res.render('index.jade', { message: 'Hello there!'});
+            var session_data = req.session;
+            res.render('index.jade', {
+                user_name: session_data.user_name,
+                message: 'Hier kommen mal Nachrichten!'
+            });
         });
         app_config.souce_acl['/'] = 'anonymous';
 
@@ -35,6 +40,10 @@ var AppRoutes = {
         app.post( '/login', login.post_request );
 //         app_config.souce_acl.push('/login': 'anonymous');
         app_config.souce_acl["/login"] = "anonymous";
+
+
+        app.get( '/logout', logout.get_request ) ;
+        app_config.souce_acl["/logout"] = "anonymous";
 
 
         console.log('[routing] app_config.souce_acl: ' + JSON.stringify(app_config.souce_acl) );

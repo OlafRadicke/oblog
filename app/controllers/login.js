@@ -56,6 +56,8 @@ module.exports = {
                     console.log("Login erfolgreich!");
                     var session_data = req.session;
                     session_data.user_name = req.body.name;
+                    \\ TODO
+                    session_data.rolls 
                     res.redirect('/')
 
                 } else {

@@ -9,12 +9,12 @@ html
 
     #container.menu_block
         ul
-            if user_name
+            if !user_name || user_name == ""
                 li
                     a( href="/login" ) login
             else
                 li
-                    a( href="/logout" ) logout
+                    a( href="/logout" ) logout (#{user_name})
             li
                 a( href="/add" ) Neuer Artikel
             li

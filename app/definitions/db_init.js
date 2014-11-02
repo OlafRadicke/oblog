@@ -118,7 +118,20 @@ var db_init = {
                     });
 
 
-                console.log( '[db_init] Set version number of database schema. Create admin user.');
+                knex('user_role')
+                    .insert( {
+                        user_id: knex('user')
+                            .select('id')
+                            .where({name: 'oblog'}),
+                        role_name: 'admin'
+                    })
+                    .debug()
+                    .then(function(inserts) {
+                        console.log('[db_init] ' + inserts.length + ' new version saved.');
+                    });
+
+
+                console.log( '[db_init] Set version number of database schema and reate admin user.');
                 knex('schema_version')
                     .insert( {version_number: 1, update: Date.now()} )
                     .debug()
