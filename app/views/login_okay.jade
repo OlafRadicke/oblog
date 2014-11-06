@@ -1,0 +1,14 @@
+//- index.jade
+extends ./layout.jade
+
+block title
+  title Login
+
+block content
+    h1 Login war erfolgreich
+
+    p
+        Du bist als #{user_name} eingelogt und hast die Rollen:
+        ul
+          each roll in rolls
+            li= roll

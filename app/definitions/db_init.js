@@ -115,19 +115,31 @@ var db_init = {
                     .debug()
                     .then(function(inserts) {
                         console.log('[db_init] ' + inserts.length + ' new version saved.');
-                    });
-
-
-                knex('user_role')
-                    .insert( {
                         user_id: knex('user')
                             .select('id')
-                            .where({name: 'oblog'}),
-                        role_name: 'admin'
-                    })
-                    .debug()
-                    .then(function(inserts) {
-                        console.log('[db_init] ' + inserts.length + ' new version saved.');
+                            .where({name: 'oblog'})
+                            .debug()
+                            .then( function(id_rows) {
+
+                                 knex('user_role')
+                                    .insert( {
+                                        user_id: id_rows[0].id,
+                                        role_name: 'admin'
+                                    })
+                                    .debug()
+                                    .then(function(inserts) {
+                                        console.log('[db_init] ' + inserts.length + ' new version saved.');
+                                    });
+                                 knex('user_role')
+                                    .insert( {
+                                        user_id: id_rows[0].id,
+                                        role_name: 'anonymous'
+                                    })
+                                    .debug()
+                                    .then(function(inserts) {
+                                        console.log('[db_init] ' + inserts.length + ' new version saved.');
+                                    });
+                            });
                     });
 
 

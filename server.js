@@ -52,7 +52,6 @@ app.use(function (err, req, res, next) {
 AppRoutes.init( app );
 
 var server = app.listen(3000, function() {
-    global.global_vars = {bekannt: "ja"};
     console.log('[server] Listening on port ' + server.address().port);
 
 });

@@ -56,9 +56,38 @@ module.exports = {
                     console.log("Login erfolgreich!");
                     var session_data = req.session;
                     session_data.user_name = req.body.name;
-                    \\ TODO
-                    session_data.rolls 
-                    res.redirect('/')
+                    session_data.rolls = [];
+                    user_id: knex('user')
+                        .select('id')
+                        .where({name: req.body.name})
+                        .debug()
+                        .then( function(id_rows) {
+                            console.log( '[login] serch rolls of id: ' + id_rows[0].id );
+                            console.log( '[login] serch id_rows: ' + JSON.stringify(id_rows) );
+
+                            knex('user_role')
+                                .select('role_name')
+                                .where({ id: id_rows[0].id  })
+                                .debug()
+                                .then( function(role_rows) {
+                                    console.log( '[login] serch role_rows: ' + JSON.stringify(role_rows) );
+
+                                    for (var i = 0, len = role_rows.length; i < len; i++) {
+                                        console.log( '[login] push: ' + role_rows[0].role_name );
+
+                                        session_data.rolls.push(role_rows[0].role_name);
+                                        // is all added
+                                        if (i == len - 1) {
+                                            console.log( '[login] rolls: ' + req.body.rolls );
+                                            res.render('login_okay.jade', {
+                                                rolls: session_data.rolls,
+                                                user_name: req.body.name
+                                            });
+                                        }
+                                    }
+
+                                });
+                        });
 
                 } else {
                     console.log("Login falsch!");
