@@ -62,30 +62,13 @@ module.exports = {
                         .where({name: req.body.name})
                         .debug()
                         .then( function(id_rows) {
-                            console.log( '[login] serch rolls of id: ' + id_rows[0].id );
-                            console.log( '[login] serch id_rows: ' + JSON.stringify(id_rows) );
-
                             knex('user_role')
                                 .select('role_name')
                                 .where({ user_id: id_rows[0].id  })
                                 .debug()
                                 .then( function(role_rows) {
-                                    console.log( '[login] serch role_rows: ' + JSON.stringify(role_rows) );
-
                                     for (var i = 0, len = role_rows.length; i < len; i++) {
-                                        console.log( '[login] push: ' + role_rows[i].role_name );
-                                        console.log( '[login] runde: ' + i );
                                         session_data.rolls[i] = role_rows[i].role_name;
-                                        console.log( '[login] all roles: ' + JSON.stringify(session_data.rolls) );
-
-                                        // is all added
-//                                         if (i == len - 1) {
-//                                             console.log( '[login] rolls: ' + JSON.stringify(session_data.rolls) );
-//                                             res.render('login_okay.jade', {
-//                                                 rolls: session_data.rolls,
-//                                                 user_name: req.body.name
-//                                             });
-//                                         }
                                     }
                                     res.render('login_okay.jade', {
                                         rolls: session_data.rolls,
