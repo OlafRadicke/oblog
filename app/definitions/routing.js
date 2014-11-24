@@ -9,18 +9,13 @@ var add_article  = require('../controllers/add_article.js');
 var edit_account = require('../controllers/edit_account.js');
 var login        = require('../controllers/login.js');
 var logout       = require('../controllers/logout.js');
+var list_articl  = require('../controllers/list_article.js');
 
 var AppRoutes = {
     init: function( app ) {
         app.all('*', acl_check.all_request );
+        app.get('/', list_article.get_request );
 
-        app.get('/', function(req, res){
-            var session_data = req.session;
-            res.render('index.jade', {
-                user_name: session_data.user_name,
-                message: 'Hier kommen mal Nachrichten!'
-            });
-        });
         app_config.souce_acl['/'] = 'anonymous';
 
         app.get( '/add', add_article.get_request ) ;

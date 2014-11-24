@@ -7,6 +7,17 @@ block title
 block content
     h1 Neuer Artikel
 
+    if flash_message_error != ""
+        #flash_message_error
+            h2 Fehler!
+            p #{flash_message_error}
+
+    if flash_message != ""
+        #flash_message_error
+            h2 Info
+            p #{flash_message}
+
+            
     form(method="post")
         input( type="hidden", name="_csrf", value="#{csrfToken}")
 
