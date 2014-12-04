@@ -7,7 +7,7 @@ var csrf = require('csurf')
 
 var AppRoutes  = require('./app/definitions/routing.js');
 var app_config = require('./app/definitions/app_config.js');
-var db_init = require('./app/definitions/db_init.js');
+var db_init    = require('./app/definitions/db_init.js');
 var bodyParser = require('body-parser');
 
 // Database prepare
@@ -15,9 +15,18 @@ db_init.check_exist();
 db_init.check_update();
 
 // Set session engine
+var days = 0;
+var hours = 2;
+var minutes = 60;
+var seconds = 60;
+var milliseconds = 1000;
+// var time_sum = days * hours * minutes * seconds * milliseconds;
+var time_sum = hours * minutes * seconds * milliseconds;
+console.log('[server] time_sum: ' + time_sum);
+
 app.use(session({
     secret: 'oblog-3553-742-de',
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: time_sum },
     proxy: true,
     resave: true,
     saveUninitialized: true

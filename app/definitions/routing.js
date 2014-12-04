@@ -9,16 +9,17 @@ var add_article  = require('../controllers/add_article.js');
 var edit_account = require('../controllers/edit_account.js');
 var login        = require('../controllers/login.js');
 var logout       = require('../controllers/logout.js');
-var list_articl  = require('../controllers/list_article.js');
+var list_article  = require('../controllers/list_article.js');
 
 var AppRoutes = {
     init: function( app ) {
         app.all('*', acl_check.all_request );
         app.get('/', list_article.get_request );
+        app.post('/', list_article.get_request );
 
         app_config.souce_acl['/'] = 'anonymous';
 
-        app.get( '/add', add_article.get_request ) ;
+        app.get( '/add', add_article.get_request );
         app.post( '/add', add_article.post_request );
         app_config.souce_acl['/add'] = 'admin';
 

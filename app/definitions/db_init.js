@@ -34,10 +34,11 @@ var db_init = {
             if (!exists) {
                 return knex.schema.createTable('article', function(table) {
                   table.increments('id').primary();
+                  table.text('version_of');
                   table.integer('version_number').notNullable();
                   table.dateTime('last_update');
                   table.text('title').notNullable() ;
-                  table.text('teaser').defaultTo("no set") ;
+                  table.text('teaser').defaultTo("no set");
                   table.text('body').defaultTo("no set") ;
                   table.text('state').defaultTo("Entwurff") ;
                 }).debug();
